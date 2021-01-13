@@ -8,11 +8,15 @@ export default new Vuex.Store({
   state: {
     //组件的状态  new Vue(data)
     age: 28,
+    childAge:0
   },
   getters: {
     //获取计算属性new Vue(computed)依赖，当依赖的值变化后重新执行
     getAge(state) {
       return state.age + 10;
+    },
+    getChildAge(state) {
+      return state.childAge + 10;
     }
   },
   mutations: {
