@@ -14,6 +14,5 @@ function vueInit() {
         //子组件
         this.$store = options.parent.$store;
     }
-
 }
 export default applyMixin;

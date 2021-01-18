@@ -2,15 +2,17 @@
   <div class="app">
     age:{{ $store.state.age }}
     <button @click="addAge">点击</button>
-    age:{{ $store.getters.getAge }} 
-    <br/>
-     getChildAge:{{ $store.state.childAge }}
-    getChildAge::{{
-      $store.getters.getChildAge
-    }}
-      <button @click="addChildAge">点击</button>
-    <!-- <button @click="$store.commit('changeAge', 5)">同步更新</button>
-    <button @click="$store.dispatch('changeAge', 5)">异步更新</button> -->
+    age:{{ $store.getters.getAge }}<br />
+    a module:{{ $store.state.a.d }}<br />
+    c:{{ $store.state.b.d }} <br />
+    getD:{{ $store.getters.getD }}<br />
+    get moduleA:{{ $store.getters.getD }}<br />
+    <button @click="$store.commit('changeAge', 5)">同步更新root</button>
+    <button @click="$store.commit('a/changeAge', 5)">同步更新a</button>
+    <button @click="$store.commit('moduleA/changeAge', 5)">
+      同步更新a下的modules A
+    </button>
+    <button @click="$store.dispatch('changeAge', 5)">异步更新</button>
   </div>
 </template>
 
