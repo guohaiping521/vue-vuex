@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    age:{{ $store.state.age }}
+    <!-- age:{{ $store.state.age }}
     <button @click="addAge">点击</button>
     age:{{ $store.getters.getAge }}<br />
     a module:{{ $store.state.a.d }}<br />
@@ -12,7 +12,7 @@
     <button @click="$store.commit('moduleA/changeAge', 5)">
       同步更新a下的modules A
     </button>
-    <button @click="$store.dispatch('changeAge', 5)">异步更新</button>
+    <button @click="$store.dispatch('changeAge', 5)">异步更新</button> -->
   </div>
 </template>
 

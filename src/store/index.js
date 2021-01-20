@@ -1,5 +1,5 @@
 import Vue from "vue";
-import Vuex from "vuex";
+import Vuex from "../vuex";
 //跨组件通信
 Vue.use(Vuex);
 
@@ -34,29 +34,8 @@ export default new Vuex.Store({
       }, 1000);
     }
   },
-  // const moduleA = {
-  //   state: {
-  //     age: 28
-  //   },
-  //   mutations: {
-  //     changeAge(state, playload) {
-  //       state.age += playload;
-  //     }
-  //   },
-  // },
-  // const moduleB = {
-  //   state: {
-  //     age: 28
-  //   },
-  //   mutations: {
-  //     changeAge(state, playload) {
-  //       state.age += playload;
-  //     }
-  //   },
-  // }
   modules: {
     a: {
-
       state: {
         d: 48
       },
@@ -71,7 +50,6 @@ export default new Vuex.Store({
         }
       },
       modules: {
-        namespaced: true,
         moduleA: {
           state: {
             e: 500
