@@ -2,7 +2,6 @@ import { forEach } from "../util";
 
 export default class Module {
     constructor(rootModule) {
-        console.log("rootModule", rootModule);
         this._rawModule = rootModule;
         this._children = {};
         this.state = rootModule.state;
@@ -14,21 +13,27 @@ export default class Module {
         this._children[key] = module
     }
 
-    forEachMutations(fn){
-        if(this._rawModule.mutations){
-            forEach(this._rawModule.mutations,fn);
+    forEachMutations(fn) {
+        if (this._rawModule.mutations) {
+            forEach(this._rawModule.mutations, fn);
         }
     }
 
-    forEachActions(fn){
-        if(this._rawModule.actions){
-            forEach(this._rawModule.actions,fn);
+    forEachActions(fn) {
+        if (this._rawModule.actions) {
+            forEach(this._rawModule.actions, fn);
         }
     }
 
-    forEachModules(fn){
-        if(this._rawModule.modules){
-            forEach(this._rawModule.modules,fn);
+    forEachGetters(fn) {
+        if (this._rawModule.getters) {
+            forEach(this._rawModule.getters, fn);
+        }
+    }
+
+    forEachChild(fn) {
+        if (this._children) {
+            forEach(this._children, fn);
         }
     }
 }

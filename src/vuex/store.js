@@ -3,16 +3,34 @@ import { forEach } from "./util";
 import ModuleCollection from "./module/module-collection";
 let Vue;
 function installModule(store, rootState, path, module) {
-    module.forEachMutations((mutation,key)=>{
-        console.log("mutation====",mutation,key);
+    if (path.length > 0) {
+        let parent = path.slice(0, -1).reduce((prev, cur) => {
+            return prev[cur]
+        }, rootState)
+        Vue.set(parent, path[path.length - 1], module.state);
+    }
+    module.forEachMutations((mutation, key) => {//{changeAge:[]}
+        store._mutations[key] = store._mutations[key] || []
+        store._mutations[key].push((playload) => {//函数的包装
+            mutation.call(store, module.state, playload)
+        })
     })
 
-    module.forEachActions((action,key)=>{
-        console.log("action====",action,key);
+    module.forEachActions((action, key) => {
+        store._actions[key] = store._actions[key] || []
+        store._actions[key].push((playload) => {//函数的包装
+            action.call(store, module.state, playload)
+        })
     })
 
-    module.forEachModules((module,key)=>{
-        console.log("module====",module,key);
+    module.forEachGetters((getter, key) => {
+        store._wrappedGetters.push(() => {
+            getter.call(store, module.state);
+        });
+    })
+
+    module.forEachChild((child, key) => {
+        installModule(store, rootState, path.concat(key), child);
     })
 }
 class Store {
@@ -20,8 +38,12 @@ class Store {
         //1.收集用户传入的参数，树形结构
         this._modules = new ModuleCollection(options);
         //2.安装模块，属性定义在store上
-        const rootState = this._modules.root.state
-        installModule(this, rootState, [], this._modules.root);
+        let state = this._modules.root.state
+        this._mutations = [];
+        this._actions = [];
+        this._wrappedGetters = [];
+        installModule(this, state, [], this._modules.root);
+        console.log("state===", state);
         //如果直接state定义在实例上，这个状态发生变化，视图不会更新
         //this.state= options.state;
         // let state = options.state;
@@ -67,11 +89,15 @@ class Store {
         // })
     }
     commit = (fnName, data) => {
-        this._mutation[fnName](data);
+        this._mutations[fnName].forEach(fn => {
+            fn(data);
+        });
     }
 
     dispatch = (fnName, data) => {
-        this._actions[fnName](data);
+        this._actions[fnName].forEach(fn => {
+            fn(data);
+        });
     }
     get state() {
         return this._vm._data.$$state;

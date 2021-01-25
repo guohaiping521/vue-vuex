@@ -55,11 +55,7 @@ export default new Vuex.Store({
             e: 500
           }
         },
-        mutations: {
-          changeAge(state, playload) {
-            state.e += playload;
-          }
-        },
+
       }
     }, b: {
       state: {
